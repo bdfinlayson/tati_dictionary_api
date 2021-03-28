@@ -13,21 +13,13 @@ from django.db import models
 # Meaning 1
 # Meaning 2
 # Example (bilingual?)
+from django.db.models import DateTimeField
 
 LANGUAGE_CHOICES = (
   (1, 'Tati'),
   (2, 'Persian'),
   (3, 'English')
 )
-
-
-class GramaticalCategory(models.Model):
-    name = models.CharField(max_length=50)
-
-
-class ThematicCategory(models.Model):
-    name = models.CharField(max_length=50)
-
 
 # class Example(models.Model):
 #     language = models.IntegerField()
@@ -37,24 +29,27 @@ class ThematicCategory(models.Model):
 
    # examples = models.ManyToManyField(Example)
 
-
-class InternationalPhoneticAlphabet(models.Model):
-    text = models.CharField(max_length=250)
+class GrammaticalCategory(models.Model):
+    name = models.CharField(max_length=50)
 
 
 class DictionaryEntry(models.Model):
-    # grammaticalCategory = models.ForeignKey(GramaticalCategory)
-    # thematicCategory = models.ForeignKey(ThematicCategory)
     ipa = models.CharField(max_length=250)
+    createdAt = DateTimeField(auto_now_add=True)
+    updatedAt = DateTimeField(auto_now=True)
+    grammatical_category = models.ForeignKey(GrammaticalCategory, related_name="entry", on_delete=models.PROTECT)
 
 
 class Word(models.Model):
     language = models.IntegerField(choices=LANGUAGE_CHOICES)
-    text = models.CharField(max_length=250)
-    entry = models.ForeignKey(DictionaryEntry, on_delete=models.CASCADE)
+    text = models.CharField(max_length=250, blank=True, default='')
+    definition = models.CharField(max_length=500, blank=True, default='')
+    entry = models.ForeignKey(DictionaryEntry, related_name="words", on_delete=models.CASCADE)
 
 
-class Definition(models.Model):
-    text = models.CharField(max_length=500)
-    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+class ThematicCategory(models.Model):
+    name = models.CharField(max_length=50)
+    entries = models.ManyToManyField(DictionaryEntry, related_name="thematic_categories")
+
+
 
