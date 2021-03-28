@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -15,36 +16,46 @@ from django.db import models
 # Example (bilingual?)
 from django.db.models import DateTimeField
 
+PERSIAN = 0
+ENGLISH = 1
+
 LANGUAGE_CHOICES = (
-  (1, 'Tati'),
-  (2, 'Persian'),
-  (3, 'English')
+  (PERSIAN, 'Persian'),
+  (ENGLISH, 'English')
 )
 
-# class Example(models.Model):
-#     language = models.IntegerField()
-#     position = models.IntegerField()
-#     text = models.CharField(max_length=1500)
-#
+POSITION_CHOICES = (
+  (0, 'First'),
+  (1, 'Second'),
+  (2, 'Third'),
+  (3, 'Fourth'),
+  (4, 'Fifth')
+)
 
-   # examples = models.ManyToManyField(Example)
 
 class GrammaticalCategory(models.Model):
     name = models.CharField(max_length=50)
 
 
 class DictionaryEntry(models.Model):
-    ipa = models.CharField(max_length=250)
+    tati_word = models.CharField(max_length=100, blank=False, null=False)
+    ipa = models.CharField(max_length=150, blank=False, null=False)
     createdAt = DateTimeField(auto_now_add=True)
     updatedAt = DateTimeField(auto_now=True)
     grammatical_category = models.ForeignKey(GrammaticalCategory, related_name="entry", on_delete=models.PROTECT)
+    # use clean(self) for validation at save
+    #
+    # def clean(self):
+    #     if len(list(filter(lambda word: word.language == TATI, self.entry_items.all()))) > 1:
+    #         raise ValidationError('Only one Tati word per dictionary entry is permitted')
 
 
-class Word(models.Model):
-    language = models.IntegerField(choices=LANGUAGE_CHOICES)
-    text = models.CharField(max_length=250, blank=True, default='')
+class EntryEquivalent(models.Model):
+    language = models.IntegerField(choices=LANGUAGE_CHOICES, default=0)
+    position = models.IntegerField(choices=POSITION_CHOICES, default=0)
+    word = models.CharField(max_length=250, blank=True, default='')
     definition = models.CharField(max_length=500, blank=True, default='')
-    entry = models.ForeignKey(DictionaryEntry, related_name="words", on_delete=models.CASCADE)
+    entry = models.ForeignKey(DictionaryEntry, related_name="entry_equivalents", on_delete=models.CASCADE)
 
 
 class ThematicCategory(models.Model):

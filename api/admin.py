@@ -1,11 +1,10 @@
 from django.contrib import admin
 
-from api.models import Word, DictionaryEntry, GrammaticalCategory
+from api.models import EntryEquivalent, DictionaryEntry, GrammaticalCategory
 
-class WordInline(admin.StackedInline):
-    model = Word
-    radio_fields = {'language': admin.HORIZONTAL}
-    min_num = 2
+class EntryEquivalentInline(admin.StackedInline):
+    model = EntryEquivalent
+    min_num = 1
     extra = 0
 
 class GrammaticalCategoryAdmin(admin.ModelAdmin):
@@ -14,10 +13,10 @@ class GrammaticalCategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class DictionaryEntryAdmin(admin.ModelAdmin):
-    fields = ('ipa', 'grammatical_category')
-    list_display = ('get_words', 'get_grammatical_category', 'get_definitions',)
-    search_fields = ('words__text', 'grammatical_category__name', 'definitions__text')
-    inlines = [WordInline]
+    fields = ('tati_word', 'ipa', 'grammatical_category')
+    list_display = ('entry_equivalents', 'grammatical_category_name', 'definitions',)
+    search_fields = ('entry_equivalents__word', 'grammatical_category__name', 'definitions__text')
+    inlines = [EntryEquivalentInline]
 
     # get_form controls how select options are labeled
     def get_form(self, request, obj=None, **kwargs):
@@ -25,22 +24,22 @@ class DictionaryEntryAdmin(admin.ModelAdmin):
         form.base_fields['grammatical_category'].label_from_instance = lambda obj: obj.name
         return form
 
-    def get_grammatical_category(self, obj):
+    def grammatical_category_name(self, obj):
         return obj.grammatical_category.name;
 
-    def get_definitions(self, obj):
-      return list((word.definition) for word in
-                  sorted(obj.words.all(),
-                         key=lambda word: word.definition));
+    def definitions(self, obj):
+      return list((entry_equivalent.definition) for entry_equivalent in
+                  sorted(obj.entry_equivalents.all(),
+                         key=lambda entry_item: entry_equivalent.position));
 
-    def get_thematic_categories(self, obj):
+    def thematic_categories(self, obj):
         return list((category.name) for category in
                     sorted(obj.thematic_categories.all(),
                            key=lambda category: category.name));
 
-    def get_words(self, obj):
-        return list((word.text for word in
-                     sorted(obj.words.all(), key=lambda word: word.language)));
+    def entry_equivalents(self, obj):
+        return list((entry_equivalent.word for entry_equivalent in
+                     sorted(obj.entry_equivalents.all(), key=lambda entry_equivalent: entry_equivalent.language)));
 
 
 admin.site.register(DictionaryEntry, DictionaryEntryAdmin)
