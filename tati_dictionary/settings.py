@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'tati_dictionary.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tati_dictionary_api',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
         'CHARSET': 'utf8',
         'COLLATION': 'utf8_general_ci'
     }
