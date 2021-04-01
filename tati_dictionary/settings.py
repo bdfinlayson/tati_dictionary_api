@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '4oakyo3z+forb5cp_hj=ef)wnk9@nuiep#sbxkftl1$knwc*k-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if 'RDS_DB_NAME' in os.environ:
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['tati-dictionary-dev.us-east-1.elasticbeanstalk.com']
 
