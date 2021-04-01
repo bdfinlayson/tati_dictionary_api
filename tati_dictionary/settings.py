@@ -25,7 +25,7 @@ SECRET_KEY = '4oakyo3z+forb5cp_hj=ef)wnk9@nuiep#sbxkftl1$knwc*k-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tati-dictionary-dev.us-east-1.elasticbeanstalk.com']
 
 
 # Application definition
