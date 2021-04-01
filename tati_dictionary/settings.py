@@ -28,7 +28,7 @@ if 'RDS_DB_NAME' in os.environ:
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['tati-dictionary-dev.us-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['tati-dictionary-api-dev.us-east-1.elasticbeanstalk.com']
 
 
 # Application definition
@@ -131,3 +131,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
