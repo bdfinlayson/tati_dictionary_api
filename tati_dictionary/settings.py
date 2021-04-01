@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'tati_dictionary.wsgi.application'
 # https://stackoverflow.com/questions/19753160/python-django-and-an-arabic-document-search-application/19753350
 # Note: looks like we'll need to go with mysql as only mysql supports the Collation option
 
-if 'RDS_DB_NAME' in os.environ:
+if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
