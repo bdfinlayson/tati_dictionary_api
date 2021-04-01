@@ -80,8 +80,20 @@ WSGI_APPLICATION = 'tati_dictionary.wsgi.application'
 # https://stackoverflow.com/questions/19753160/python-django-and-an-arabic-document-search-application/19753350
 # Note: looks like we'll need to go with mysql as only mysql supports the Collation option
 
-DATABASES = {
-    'default': {
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
+    }
+else:
+    DATABASES = {
+      'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tati_dictionary_api',
         'USER': 'admin',
@@ -90,8 +102,8 @@ DATABASES = {
         'PORT': '5432',
         'CHARSET': 'utf8',
         'COLLATION': 'utf8_general_ci'
+      }
     }
-}
 
 
 # Password validation
