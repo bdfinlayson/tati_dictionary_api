@@ -30,7 +30,7 @@ class DictionaryEntryAdmin(admin.ModelAdmin):
     def definitions(self, obj):
       return list((entry_equivalent.definition) for entry_equivalent in
                   sorted(obj.entry_equivalents.all(),
-                         key=lambda entry_item: entry_equivalent.position));
+                         key=lambda entry_equivalent: entry_equivalent.position));
 
     def thematic_categories(self, obj):
         return list((category.name) for category in

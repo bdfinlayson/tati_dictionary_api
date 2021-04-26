@@ -28,7 +28,7 @@ if 'RDS_DB_NAME' in os.environ:
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['tati-dictionary-api-dev.us-east-1.elasticbeanstalk.com', '172.31.81.94']
+ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:8000', 'tati-dictionary-api-dev.us-east-1.elasticbeanstalk.com', '172.31.81.94']
 
 
 # Application definition
