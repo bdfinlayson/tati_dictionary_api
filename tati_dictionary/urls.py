@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+admin.site.site_header = 'Tati Dictionary Admin Portal'
+admin.site.index_title = 'Tati Dictionary Admin Portal'
+admin.site.site_header = 'Tati Dictionary Admin Portal'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
