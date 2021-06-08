@@ -8,6 +8,7 @@ class DictionaryEntryViewSet(viewsets.ModelViewSet):
     serializer_class = DictionaryEntrySerializer
     permission_classes = [permissions.AllowAny]
 
+
 class EntryEquivalentViewSet(viewsets.ModelViewSet):
     queryset = EntryEquivalent.objects.all()
     serializer_class = EntryEquivalentSerializer

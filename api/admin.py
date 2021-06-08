@@ -14,8 +14,8 @@ class GrammaticalCategoryAdmin(admin.ModelAdmin):
 
 class DictionaryEntryAdmin(admin.ModelAdmin):
     fields = ('tati_word', 'ipa', 'grammatical_category')
-    list_display = ('entry_equivalents', 'grammatical_category_name', 'definitions',)
-    search_fields = ('entry_equivalents__word', 'grammatical_category__name', 'definitions__text')
+    list_display = ('tati_word', 'ipa', 'entry_equivalents', 'grammatical_category_name', 'definitions',)
+    search_fields = ('tati_word', 'ipa', 'entry_equivalents__word', 'grammatical_category__name', 'definitions__text')
     inlines = [EntryEquivalentInline]
 
     # get_form controls how select options are labeled
